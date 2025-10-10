@@ -23,11 +23,12 @@ public:
         }
     }
 
-    Chair(int l) {
-        prices = new double[SIZE];
+    // new parameter constructor (legs + price array)
+    Chair(int l, double arr[]) {
         legs = l;
+        prices = new double[SIZE];
         for (int i = 0; i < SIZE; i++)
-            prices[i] = 0;
+            prices[i] = arr[i];
     }
 
     void setLegs(int l)      { legs = l; }
@@ -46,7 +47,7 @@ public:
 
     void print() {
         cout << "CHAIR DATA - legs: " << legs << endl;
-        cout << "Price history: " ;
+        cout << "Price history: ";
         for (int i = 0; i < SIZE; i++)
             cout << prices[i] << " ";
         cout << endl << "Historical avg price: " << getAveragePrices();
@@ -61,8 +62,9 @@ int main() {
     Chair *chairPtr = new Chair;  // uses random constructor
     chairPtr->print();
 
-    Chair *livingChair = new Chair(3);
-    livingChair->setPrices(525.25, 434.34, 252.52);
+    // now using the new parameter constructor
+    double priceArr[3] = {199.99, 299.99, 399.99};
+    Chair *livingChair = new Chair(3, priceArr);
     livingChair->print();
     delete livingChair;
     livingChair = nullptr;
