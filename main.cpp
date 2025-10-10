@@ -1,7 +1,9 @@
 #include <iostream>
 #include <iomanip>
-
+#include <cstdlib>
+#include <ctime>
 using namespace std;
+
 const int SIZE = 3;
 
 class Chair {
@@ -9,13 +11,18 @@ private:
     int legs;
     double * prices;
 public:
-    // constructors
     Chair() {
         prices = new double[SIZE];
-        legs = 0;
-        for (int i = 0; i < SIZE; i++)
-            prices[i] = 0;
+        legs = (rand() % 2 == 0) ? 3 : 4;  // random 3 or 4 legs
+
+        // random prices between 100.00 and 999.99
+        const int MIN = 10000, MAX = 99999;
+        for (int i = 0; i < SIZE; i++) {
+            double price = (rand() % (MAX - MIN + 1) + MIN) / 100.0;
+            prices[i] = price;
+        }
     }
+
     Chair(int l) {
         prices = new double[SIZE];
         legs = l;
@@ -23,7 +30,6 @@ public:
             prices[i] = 0;
     }
 
-    // setters and getters
     void setLegs(int l)      { legs = l; }
     int getLegs()            { return legs; }
 
@@ -49,22 +55,18 @@ public:
 };
 
 int main() {
+    srand(time(0));  // seed random numbers
     cout << fixed << setprecision(2);
 
-    //creating pointer to first chair object
-    Chair *chairPtr = new Chair;
-    chairPtr->setLegs(4);
-    chairPtr->setPrices(121.21, 232.32, 414.14);
+    Chair *chairPtr = new Chair;  // uses random constructor
     chairPtr->print();
 
-    //creating dynamic chair object with constructor
     Chair *livingChair = new Chair(3);
     livingChair->setPrices(525.25, 434.34, 252.52);
     livingChair->print();
     delete livingChair;
     livingChair = nullptr;
 
-    //creating dynamic array of chair objects
     Chair *collection = new Chair[SIZE];
     collection[0].setLegs(4);
     collection[0].setPrices(441.41, 552.52, 663.63);
